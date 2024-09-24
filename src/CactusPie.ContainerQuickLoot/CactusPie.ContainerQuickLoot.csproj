@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <Version>1.4.2</Version>
-    <Authors>CactusPie</Authors>
+    <Version>1.4.3</Version>
+    <Authors>CactusPie/ArchmageTony</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Aki.Reflection">
-      <HintPath>..\References\EFT_Managed\Aki.Reflection.dll</HintPath>
+    <Reference Include="spt-reflection">
+      <HintPath>..\References\EFT_Managed\spt-reflection.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
