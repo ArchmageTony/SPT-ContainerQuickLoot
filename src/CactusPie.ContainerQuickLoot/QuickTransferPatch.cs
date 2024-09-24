@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Aki.Reflection.Patching;
+using SPT.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
@@ -22,7 +22,7 @@ namespace CactusPie.ContainerQuickLoot
 
         [PatchPrefix]
         public static bool PatchPrefix(
-            ref GStruct414<GInterface324> __result,
+            ref GStruct414<GInterface339> __result,
             object __instance,
             Item item,
             TraderControllerClass controller,
@@ -98,19 +98,19 @@ namespace CactusPie.ContainerQuickLoot
                             continue;
                         }
 
-                        GStruct414<GClass2788> mergeResult = InteractionsHandlerClass.Merge(item, containedItem.Key, controller, simulate);
-                        __result = new GStruct414<GInterface324>(mergeResult.Value);
+                        GStruct414<GClass2804> mergeResult = InteractionsHandlerClass.Merge(item, containedItem.Key, controller, simulate);
+                        __result = new GStruct414<GInterface339>(mergeResult.Value);
                         return false;
                     }
                 }
 
-                GClass2769 location = container.FindLocationForItem(item);
+                ItemAddressClass location = container.FindLocationForItem(item);
                 if (location == null)
                 {
                     continue;
                 }
 
-                GStruct414<GClass2786> moveResult = InteractionsHandlerClass.Move(item, location, controller, simulate);
+                GStruct414<GClass2802> moveResult = InteractionsHandlerClass.Move(item, location, controller, simulate);
                 if (moveResult.Failed)
                 {
                     return true;
@@ -118,7 +118,7 @@ namespace CactusPie.ContainerQuickLoot
 
                 if (!moveResult.Value.ItemsDestroyRequired)
                 {
-                    __result = moveResult.Cast<GClass2786, GInterface324>();
+                    __result = moveResult.Cast<GClass2802, GInterface339>();
                 }
 
                 return false;
@@ -139,7 +139,7 @@ namespace CactusPie.ContainerQuickLoot
                 // Logger.LogError("在这里代表gameworld==null");
                 return false;
             }
-            
+
             Player player = GetLocalPlayerFromWorld(gameWorld);
             // inventory = (Inventory)typeof(Player)
             // .GetProperty("Inventory", BindingFlags.NonPublic | BindingFlags.Instance)
@@ -213,7 +213,7 @@ namespace CactusPie.ContainerQuickLoot
             Inventory inventory,
             TraderControllerClass controller,
             bool simulate,
-            ref GStruct414<GInterface324> result)
+            ref GStruct414<GInterface339> result)
         {
             if (!ContainerQuickLootPlugin.AutoMergeStacksForNonLootContainers.Value)
             {
@@ -225,7 +225,7 @@ namespace CactusPie.ContainerQuickLoot
                 return false;
             }
 
-            foreach (Item targetItem in inventory.Equipment.GetAllItems())
+            foreach (Item targetItem in inventory.Equipment.GetNotMergedItems().Reverse())
             {
                 if (targetItem.Template._id != item.Template._id)
                 {
@@ -237,14 +237,14 @@ namespace CactusPie.ContainerQuickLoot
                     continue;
                 }
 
-                GStruct414<GClass2788> mergeResult = InteractionsHandlerClass.Merge(item, targetItem, controller, simulate);
+                GStruct414<GClass2804> mergeResult = InteractionsHandlerClass.Merge(item, targetItem, controller, simulate);
 
                 if (!mergeResult.Succeeded)
                 {
                     return false;
                 }
 
-                result = new GStruct414<GInterface324>(mergeResult.Value);
+                result = new GStruct414<GInterface339>(mergeResult.Value);
                 return true;
             }
 
